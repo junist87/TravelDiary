@@ -1,6 +1,6 @@
 package com.ciaosgarage.traveldiary.domain.account;
 
-import com.ciaosgarage.traveldiary.beans.vo.*;
+import com.ciaosgarage.traveldiary.beans.dao.vo.*;
 
 @DbTable
 public class Account {
