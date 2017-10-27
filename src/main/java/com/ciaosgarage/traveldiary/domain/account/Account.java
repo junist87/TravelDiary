@@ -15,6 +15,9 @@ public class Account {
     private String password;
     private Integer authorization;
 
+    @ColumnConfig(cryptOption = CryptOption.ON)
+    private String authorizationKey;
+
     public void setPk(String pk) {
         this.pk = pk;
     }
@@ -47,11 +50,19 @@ public class Account {
         this.password = password;
     }
 
-    public Integer getAuthorization() {
-        return authorization;
+    public AccountAutholization getAuthorization() {
+        return AccountAutholization.getAccountAutholizationValue(authorization);
     }
 
-    public void setAuthorization(Integer authorization) {
-        this.authorization = authorization;
+    public void setAuthorization(AccountAutholization authorization) {
+        this.authorization = AccountAutholization.getIntValue(authorization);
+    }
+
+    public String getAuthorizationKey() {
+        return authorizationKey;
+    }
+
+    public void setAuthorizationKey(String authorizationKey) {
+        this.authorizationKey = authorizationKey;
     }
 }

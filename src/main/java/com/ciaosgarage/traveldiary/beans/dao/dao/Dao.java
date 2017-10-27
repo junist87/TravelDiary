@@ -39,7 +39,7 @@ public interface Dao {
      * @param statements 데이터를 읽어올때 필요한 조건
      * @return 조건에 맞는 데이터를 추출하려 리턴한다
      */
-    List getList(Class voInfo, List<AttachStatement> statements);
+    List getList(Class voInfo, List<AttachStatement> statements) throws EmptyResultDataAccessException;
 
     /**
      * 데이터베이스에서 해당 정보를 수정하는 메소드

@@ -1,7 +1,7 @@
 package com.ciaosgarage.traveldiary.beans.dao.sqlMaker;
 
-import com.ciaosgarage.traveldiary.beans.dao.daoSettings.DaoSettings;
-import com.ciaosgarage.traveldiary.beans.dao.exception.NoExistPrimaryKeyField;
+import com.ciaosgarage.traveldiary.beans.systemSettings.SystemSettings;
+import com.ciaosgarage.traveldiary.beans.dao.exceptions.NoExistPrimaryKeyFieldException;
 import com.ciaosgarage.traveldiary.beans.dao.vo.ColumnConfig;
 import com.ciaosgarage.traveldiary.beans.dao.vo.RwType;
 import com.ciaosgarage.traveldiary.beans.dao.voHandler.VoHandler;
@@ -14,14 +14,14 @@ import java.lang.reflect.Field;
 public class SqlMakerImpl implements SqlMaker {
 
     @Autowired
-    DaoSettings daoSettings;
+    SystemSettings systemSettings;
 
     @Autowired
     VoHandler voHandler;
 
     @Override
     public String update(Class voInfo) {
-        StringBuffer sql = new StringBuffer("UPDATE " + daoSettings.tablePrefix + voInfo.getSimpleName() + " SET ");
+        StringBuffer sql = new StringBuffer("UPDATE " + systemSettings.dbTablePrefix + voInfo.getSimpleName() + " SET ");
         sql.append(getUpdateValues(voInfo));
         sql.append(" " + getWherePrimaryKey(voInfo));
         return sql.toString();
@@ -29,33 +29,33 @@ public class SqlMakerImpl implements SqlMaker {
 
     @Override
     public String insert(Class voInfo) {
-        StringBuffer sql = new StringBuffer("INSERT INTO " + daoSettings.tablePrefix + voInfo.getSimpleName());
+        StringBuffer sql = new StringBuffer("INSERT INTO " + systemSettings.dbTablePrefix + voInfo.getSimpleName());
         sql.append(" " + getInsertValue(voInfo));
         return sql.toString();
     }
 
     @Override
     public String delete(Class voInfo) {
-        StringBuffer sql = new StringBuffer("DELETE FROM " + daoSettings.tablePrefix + voInfo.getSimpleName());
+        StringBuffer sql = new StringBuffer("DELETE FROM " + systemSettings.dbTablePrefix + voInfo.getSimpleName());
         sql.append(" " + getWherePrimaryKey(voInfo));
         return sql.toString();
     }
 
     @Override
     public String deleteAll(Class voInfo) {
-        StringBuffer sql = new StringBuffer("DELETE FROM " + daoSettings.tablePrefix + voInfo.getSimpleName());
+        StringBuffer sql = new StringBuffer("DELETE FROM " + systemSettings.dbTablePrefix + voInfo.getSimpleName());
         return sql.toString();
     }
 
     @Override
     public String select(Class voInfo) {
-        StringBuffer sql = new StringBuffer("SELECT * FROM " + daoSettings.tablePrefix + voInfo.getSimpleName());
+        StringBuffer sql = new StringBuffer("SELECT * FROM " + systemSettings.dbTablePrefix + voInfo.getSimpleName());
         return sql.toString();
     }
 
     @Override
     public String count(Class voInfo) {
-        StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + daoSettings.tablePrefix + voInfo.getSimpleName());
+        StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + systemSettings.dbTablePrefix + voInfo.getSimpleName());
         return sql.toString();
     }
 
@@ -75,7 +75,7 @@ public class SqlMakerImpl implements SqlMaker {
             String primaryKeyColumnName = voHandler.getPrimaryKeyColumnName(voInfo);
             String sql = "WHERE " + primaryKeyColumnName + " = :" + primaryKeyColumnName;
             return sql;
-        } catch (NoExistPrimaryKeyField noExistPrimaryKeyField) {
+        } catch (NoExistPrimaryKeyFieldException noExistPrimaryKeyFieldException) {
             return null;
         }
     }

@@ -3,7 +3,7 @@ package com.ciaosgarage.traveldiary.beans.dao.sqlStorageTest;
 import com.ciaosgarage.traveldiary.beans.dao.enums.SqlType;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.SqlIndex;
 import com.ciaosgarage.traveldiary.beans.dao.sqlStorage.SqlStorage;
-import com.ciaosgarage.traveldiary.context.DaoContext;
+import com.ciaosgarage.traveldiary.context.BeansContext;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class SqlStorageTest {
 
     @Autowired

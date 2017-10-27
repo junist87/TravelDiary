@@ -1,5 +1,7 @@
 package com.ciaosgarage.traveldiary.beans.dao.sqlExecutor;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +28,9 @@ public interface SqlExecutor {
      * @param sql        처리할 slq 구문
      * @param parameters :tag 에 들어갈 파라미터 셋
      * @return 조건에 맞는 레코드
+     * @throws EmptyResultDataAccessException 검색하는 조건값이 없다면 발생하는 Exception
      */
-    Object queryForObject(Class voInfo, String sql, Map<String, Object> parameters);
+    Object queryForObject(Class voInfo, String sql, Map<String, Object> parameters) throws EmptyResultDataAccessException;
 
     /**
      * 데이터베이스에서 데이터를 여러개 가져오는 메소드
@@ -37,8 +40,9 @@ public interface SqlExecutor {
      * @param sql        처리할 slq 구문
      * @param parameters :tag 에 들어갈 파라미터 셋
      * @return 조건에 맞는 레코드
+     * @throws EmptyResultDataAccessException 검색하는 조건값이 없다면 발생하는 Exception
      */
-    List<Object> query(Class voInfo, String sql, Map<String, Object> parameters);
+    List<Object> query(Class voInfo, String sql, Map<String, Object> parameters) throws EmptyResultDataAccessException;
 
     /**
      * 해당 테이블의 전체 레코드의 수를 가져오는 메소드

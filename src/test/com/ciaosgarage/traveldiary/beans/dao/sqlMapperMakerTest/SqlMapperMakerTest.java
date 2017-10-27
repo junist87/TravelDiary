@@ -1,9 +1,9 @@
 package com.ciaosgarage.traveldiary.beans.dao.sqlMapperMakerTest;
 
-import com.ciaosgarage.traveldiary.beans.dao.cryptor.Cryptor;
+import com.ciaosgarage.traveldiary.beans.dao.cryptHandler.CryptHandler;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.ColumnValue;
 import com.ciaosgarage.traveldiary.beans.dao.sqlMapperMaker.SqlMapperMaker;
-import com.ciaosgarage.traveldiary.context.DaoContext;
+import com.ciaosgarage.traveldiary.context.BeansContext;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import com.ciaosgarage.traveldiary.sampler.AccountSampler;
 import org.junit.Before;
@@ -21,14 +21,14 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class SqlMapperMakerTest {
     @Autowired
     SqlMapperMaker sqlMapperMaker;
 
 
     @Autowired
-    Cryptor cryptor;
+    CryptHandler cryptHandler;
 
 
     AccountSampler accountSampler;
@@ -61,7 +61,7 @@ public class SqlMapperMakerTest {
                 Object value = getMap.get(field.getName());
                 Object expectValue;
 
-                expectValue = cryptor.encryption(target.getClass(), new ColumnValue(field.getName(), field.get(target)));
+                expectValue = cryptHandler.encryption(target.getClass(), new ColumnValue(field.getName(), field.get(target)));
                 if (!value.equals(expectValue)) fail();
             }
         } catch (IllegalAccessException e) {

@@ -1,8 +1,8 @@
 package com.ciaosgarage.traveldiary.beans.dao.voHandler;
 
-import com.ciaosgarage.traveldiary.beans.dao.exception.CannotAccessFieldValue;
-import com.ciaosgarage.traveldiary.beans.dao.exception.InvalidVoObject;
-import com.ciaosgarage.traveldiary.beans.dao.exception.NoExistPrimaryKeyField;
+import com.ciaosgarage.traveldiary.beans.dao.exceptions.CannotAccessFieldValueException;
+import com.ciaosgarage.traveldiary.beans.dao.exceptions.InvalidVoObjectException;
+import com.ciaosgarage.traveldiary.beans.dao.exceptions.NoExistPrimaryKeyFieldException;
 import com.ciaosgarage.traveldiary.beans.dao.vo.ColumnConfig;
 import com.ciaosgarage.traveldiary.beans.dao.vo.ColumnType;
 import com.ciaosgarage.traveldiary.beans.dao.vo.DbTable;
@@ -14,50 +14,50 @@ import java.lang.reflect.Field;
 public class VoHandlerImpl implements VoHandler {
 
     @Override
-    public Object getPrimaryKey(Object vo) throws NoExistPrimaryKeyField {
+    public Object getPrimaryKey(Object vo) throws NoExistPrimaryKeyFieldException {
         try {
             String fieldName = getPrimaryKeyFieldName(vo.getClass());
             Field primaryKeyField = vo.getClass().getDeclaredField(fieldName);
             primaryKeyField.setAccessible(true);
             return primaryKeyField.get(vo);
         } catch (Exception e) {
-            throw new NoExistPrimaryKeyField("!- Can't access primary key field");
+            throw new NoExistPrimaryKeyFieldException("!- Can't access primary key field");
         }
     }
 
     @Override
-    public String getPrimaryKeyColumnName(Object vo) throws NoExistPrimaryKeyField {
+    public String getPrimaryKeyColumnName(Object vo) throws NoExistPrimaryKeyFieldException {
         return getPrimaryKeyFieldName(vo.getClass());
     }
 
     @Override
-    public String getPrimaryKeyColumnName(Class voInfo) throws NoExistPrimaryKeyField {
+    public String getPrimaryKeyColumnName(Class voInfo) throws NoExistPrimaryKeyFieldException {
         return getPrimaryKeyFieldName(voInfo);
     }
 
     @Override
-    public void setPrimaryKey(Object vo, Object insertValue) throws NoExistPrimaryKeyField {
+    public void setPrimaryKey(Object vo, Object insertValue) throws NoExistPrimaryKeyFieldException {
         try {
             String fieldName = getPrimaryKeyFieldName(vo.getClass());
             Field primaryKeyField = vo.getClass().getDeclaredField(fieldName);
             primaryKeyField.setAccessible(true);
             primaryKeyField.set(vo, insertValue);
         } catch (Exception e) {
-            throw new NoExistPrimaryKeyField("!- Can't access primary key field");
+            throw new NoExistPrimaryKeyFieldException("!- Can't access primary key field");
         }
     }
 
     @Override
-    public void isVo(Object vo) throws InvalidVoObject {
+    public void isVo(Object vo) throws InvalidVoObjectException {
         isVo(vo.getClass());
     }
 
     // 클래스를 구성하는 모든 클래스를 검색하여 DbTable 어노테이션을 찾는다
     @Override
-    public void isVo(Class voInfo) throws InvalidVoObject {
+    public void isVo(Class voInfo) throws InvalidVoObjectException {
         if (!voInfo.isAnnotationPresent(DbTable.class)) {
             if (voInfo.getSuperclass() != null) isVo(voInfo.getSuperclass());
-            else throw new InvalidVoObject();
+            else throw new InvalidVoObjectException();
         }
     }
 
@@ -68,7 +68,7 @@ public class VoHandlerImpl implements VoHandler {
             targetField.setAccessible(true);
             return targetField.get(vo);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new CannotAccessFieldValue("!- ColumnName : " + columnName + ", vo : " + vo.getClass().getSimpleName());
+            throw new CannotAccessFieldValueException("!- ColumnName : " + columnName + ", vo : " + vo.getClass().getSimpleName());
         }
     }
 
@@ -80,7 +80,7 @@ public class VoHandlerImpl implements VoHandler {
             targetField.set(vo, value);
             return vo;
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new CannotAccessFieldValue("!- ColumnName : " + columnName + ", vo : " + vo.getClass().getSimpleName());
+            throw new CannotAccessFieldValueException("!- ColumnName : " + columnName + ", vo : " + vo.getClass().getSimpleName());
         }
     }
 
@@ -92,7 +92,7 @@ public class VoHandlerImpl implements VoHandler {
         }
         if (targetClass.getSuperclass() != null) {
             return getPrimaryKeyFieldName(targetClass.getSuperclass());
-        } else throw new NoExistPrimaryKeyField();
+        } else throw new NoExistPrimaryKeyFieldException();
     }
 
     private boolean isPrimaryKey(Field field) {

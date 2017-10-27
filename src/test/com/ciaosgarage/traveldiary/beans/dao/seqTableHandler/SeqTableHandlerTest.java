@@ -1,7 +1,7 @@
 package com.ciaosgarage.traveldiary.beans.dao.seqTableHandler;
 
 import com.ciaosgarage.traveldiary.beans.dao.dao.Dao;
-import com.ciaosgarage.traveldiary.context.DaoContext;
+import com.ciaosgarage.traveldiary.context.BeansContext;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import com.ciaosgarage.traveldiary.domain.mapBoard.MapBoard;
 import com.ciaosgarage.traveldiary.domain.mapPhoto.MapPhoto;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class SeqTableHandlerTest {
 
     @Autowired

@@ -5,8 +5,8 @@ import com.ciaosgarage.traveldiary.beans.dao.dao.Dao;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.ColumnValue;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.attachStatement.stateWhere.StateWhere;
 import com.ciaosgarage.traveldiary.beans.dao.voHandler.VoHandler;
-import com.ciaosgarage.traveldiary.context.DaoContext;
-import com.ciaosgarage.traveldiary.beans.dao.dbSetter.DbTestSetter;
+import com.ciaosgarage.traveldiary.context.BeansContext;
+import com.ciaosgarage.traveldiary.testTools.DbTestSetter;
 import com.ciaosgarage.traveldiary.sampler.AccountSampler;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import org.junit.Before;
@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class DaoTest {
     @Autowired
     Dao dao;
@@ -102,7 +103,7 @@ public class DaoTest {
         try {
             for (Field field : s1.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
-                if (field.getType().equals(java.sql.Date.class)) continue;
+                if (field.getType().equals(Date.class)) continue;
                 assertThat(field.get(s1), is(field.get(s2)));
             }
         } catch (IllegalAccessException e) {

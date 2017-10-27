@@ -2,7 +2,7 @@ package com.ciaosgarage.traveldiary.beans.dao.sqlMakerTest;
 
 
 import com.ciaosgarage.traveldiary.beans.dao.sqlMaker.SqlMaker;
-import com.ciaosgarage.traveldiary.context.DaoContext;
+import com.ciaosgarage.traveldiary.context.BeansContext;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class SqlMakerTest {
     @Autowired
     private SqlMaker sqlMaker;

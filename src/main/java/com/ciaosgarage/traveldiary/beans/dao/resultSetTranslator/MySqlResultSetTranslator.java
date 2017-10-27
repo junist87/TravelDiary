@@ -1,6 +1,6 @@
 package com.ciaosgarage.traveldiary.beans.dao.resultSetTranslator;
 
-import com.ciaosgarage.traveldiary.beans.dao.cryptor.Cryptor;
+import com.ciaosgarage.traveldiary.beans.dao.cryptHandler.CryptHandler;
 import com.ciaosgarage.traveldiary.beans.dao.enums.DatabaseType;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.ColumnValue;
 import com.ciaosgarage.traveldiary.beans.dao.voHandler.VoHandler;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class MySqlResultSetTranslator implements ResultSetTranslator {
 
     @Autowired
-    Cryptor cryptor;
+    CryptHandler cryptHandler;
 
     @Autowired
     VoHandler voHandler;
@@ -45,7 +45,7 @@ public class MySqlResultSetTranslator implements ResultSetTranslator {
             Object value = getValue(resultSet, dataType, columnName);
 
             // 암호화된 값이라면, 해석한다.
-            value = cryptor.decryption(voInfo, new ColumnValue(columnName, value));
+            value = cryptHandler.decryption(voInfo, new ColumnValue(columnName, value));
 
             // 추출된 값을 vo 객체에 입력한다.
             newVo = voHandler.setValue(newVo, columnName, value);

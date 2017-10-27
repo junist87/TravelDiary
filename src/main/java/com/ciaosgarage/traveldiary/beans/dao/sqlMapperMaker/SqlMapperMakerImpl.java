@@ -1,7 +1,7 @@
 package com.ciaosgarage.traveldiary.beans.dao.sqlMapperMaker;
 
-import com.ciaosgarage.traveldiary.beans.dao.cryptor.Cryptor;
-import com.ciaosgarage.traveldiary.beans.dao.exception.CannotAccessFieldValue;
+import com.ciaosgarage.traveldiary.beans.dao.cryptHandler.CryptHandler;
+import com.ciaosgarage.traveldiary.beans.dao.exceptions.CannotAccessFieldValueException;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.ColumnValue;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.attachStatement.AttachStatement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.*;
 public class SqlMapperMakerImpl implements SqlMapperMaker {
 
     @Autowired
-    Cryptor cryptor;
+    CryptHandler cryptHandler;
 
     @Override
     public Map<String, Object> makeMapper(Object vo, List<AttachStatement> statements) {
@@ -47,7 +47,7 @@ public class SqlMapperMakerImpl implements SqlMapperMaker {
     private Map<String, Object> swapMapper(Class voInfo, List<ColumnValue> list) {
         Map<String, Object> mapper = new HashMap<>();
         for (ColumnValue value : list) {
-            mapper.put(value.getMapperName(), cryptor.encryption(voInfo, value));
+            mapper.put(value.getMapperName(), cryptHandler.encryption(voInfo, value));
         }
         return mapper;
     }
@@ -72,7 +72,7 @@ public class SqlMapperMakerImpl implements SqlMapperMaker {
             targetField.setAccessible(true);
             return targetField.get(vo);
         } catch (IllegalAccessException e) {
-            throw new CannotAccessFieldValue();
+            throw new CannotAccessFieldValueException();
         }
     }
 }

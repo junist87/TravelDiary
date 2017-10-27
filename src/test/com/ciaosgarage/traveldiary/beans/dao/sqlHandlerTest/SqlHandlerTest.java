@@ -5,7 +5,7 @@ import com.ciaosgarage.traveldiary.beans.dao.parameters.SqlMapper;
 import com.ciaosgarage.traveldiary.beans.dao.parameters.attachStatement.AttachStatement;
 import com.ciaosgarage.traveldiary.beans.dao.sqlHandler.SqlHandler;
 import com.ciaosgarage.traveldiary.beans.dao.sqlMapperMaker.SqlMapperMaker;
-import com.ciaosgarage.traveldiary.context.DaoContext;
+import com.ciaosgarage.traveldiary.context.BeansContext;
 import com.ciaosgarage.traveldiary.domain.account.Account;
 import com.ciaosgarage.traveldiary.sampler.AccountSampler;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoContext.class)
+@ContextConfiguration(classes = BeansContext.class)
 public class SqlHandlerTest {
 
     @Autowired
